@@ -58,7 +58,7 @@ npm run dev
 
 ## 🌐 Deployment
 
-This project is deployed on [Vercel](https://vercel.com/) — [Live Link]([https://voice-task-manager-six.vercel.app])
+This project is deployed on [Vercel](https://vercel.com/) — [Live Link](https://voice-task-manager-six.vercel.app)
 
 ---
 
