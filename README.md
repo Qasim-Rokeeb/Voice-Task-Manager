@@ -58,7 +58,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-👉 [https://qasimrokeeb-voice-task-manager.vercel.app](https://qasimrokeeb-voice-task-manager.vercel.app)
+👉 [https://qasimrokeeb-voice-task-manager.vercel.app](https://voice-task-manager-six.vercel.app)
 
 ---
 
