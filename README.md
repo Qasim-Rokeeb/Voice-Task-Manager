@@ -56,9 +56,9 @@ npm run dev
 
 ---
 
-## 🌐 Live Demo
+## 🌐 Deployment
 
-👉 [https://qasimrokeeb-voice-task-manager.vercel.app](https://voice-task-manager-six.vercel.app)
+This project is deployed on [Vercel](https://vercel.com/) — [Live Link]([https://voice-task-manager-six.vercel.app])/
 
 ---
 
