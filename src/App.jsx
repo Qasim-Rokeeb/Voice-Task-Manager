@@ -1,43 +1,61 @@
-import { useState, useEffect } from 'react';
-import TaskInput from './components/TaskInput';
-import TaskList from './components/TaskList';
-import ThemeToggle from './components/ThemeToggle';
+import { useState, useEffect } from "react";
+import TaskInput from "./components/TaskInput";
+import TaskList from "./components/TaskList";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function App() {
-  const [tasks, setTasks] = useState(() => JSON.parse(localStorage.getItem('tasks')) || []);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const [tasks, setTasks] = useState(() =>
+    JSON.parse(localStorage.getItem("tasks") || "[]")
+  );
+  const [filter, setFilter] = useState("all"); // all | active | completed
 
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+  /* persist & theme */
+  useEffect(() => localStorage.setItem("tasks", JSON.stringify(tasks)), [tasks]);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const addTask = (text) => {
+  const addTask = (text) =>
     setTasks([{ id: Date.now(), text, done: false }, ...tasks]);
-  };
 
-  const toggleTask = (id) => {
-    setTasks(tasks.map(task => task.id === id ? { ...task, done: !task.done } : task));
-  };
+  const toggleTask = (id) =>
+    setTasks(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
-  };
+  const deleteTask = (id) => setTasks(tasks.filter((t) => t.id !== id));
+
+  const filtered = tasks.filter((t) => {
+    if (filter === "active") return !t.done;
+    if (filter === "completed") return t.done;
+    return true;
+  });
 
   return (
-    <main className="min-h-screen bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 space-y-6">
-      <div className="max-w-2xl mx-auto space-y-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Voice-Controlled Task Manager</h1>
-          <ThemeToggle theme={theme} setTheme={setTheme} />
-        </div>
+    <main className="min-h-screen flex flex-col items-center justify-center p-6
+                     bg-gradient-to-br from-sky-200 via-indigo-200 to-purple-200
+                     dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
+                     font-inter transition-colors">
+      <div className="w-full max-w-md space-y-6 p-8 rounded-3xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-xl shadow-2xl">
+        <header className="flex justify-between items-center">
+          <h1 className="font-poppins text-3xl font-bold text-gray-900 dark:text-gray-100">
+            Voice Tasks
+          </h1>
+          <ThemeToggle />
+        </header>
 
         <TaskInput onAdd={addTask} />
-        <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} />
+
+        {/* filters */}
+        <div className="flex gap-2 justify-center">
+          {["all", "active", "completed"].map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-3 py-1 rounded-full text-sm capitalize transition
+                ${filter === f ? "bg-indigo-600 text-white" : "bg-gray-200 dark:bg-gray-700"}`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+
+        <TaskList tasks={filtered} onToggle={toggleTask} onDelete={deleteTask} />
       </div>
     </main>
   );

@@ -1,17 +1,29 @@
+import { FiCheck, FiEdit2, FiTrash2 } from "react-icons/fi";
+
 export default function TaskList({ tasks, onToggle, onDelete }) {
-  if (!tasks.length) return <p className="text-center text-gray-500 dark:text-gray-400">No tasks yet.</p>;
+  if (!tasks.length)
+    return <p className="text-center text-gray-500 dark:text-gray-400">No tasks yet.</p>;
 
   return (
-    <ul className="space-y-2">
-      {tasks.map(task => (
-        <li key={task.id} className="flex justify-between items-center p-3 rounded bg-gray-100 dark:bg-gray-800">
-          <div
-            onClick={() => onToggle(task.id)}
-            className={`flex-1 cursor-pointer ${task.done ? 'line-through text-gray-400' : ''}`}
-          >
+    <ul className="space-y-3">
+      {tasks.map((task) => (
+        <li
+          key={task.id}
+          className="flex items-center gap-3 p-3 rounded-xl bg-white/40 dark:bg-gray-700/40 backdrop-blur-md"
+        >
+          <button onClick={() => onToggle(task.id)} className="shrink-0">
+            {task.done ? (
+              <FiCheck className="w-5 h-5 text-emerald-500" />
+            ) : (
+              <div className="w-5 h-5 border-2 border-gray-400 rounded-full" />
+            )}
+          </button>
+          <span className={`flex-1 ${task.done ? "line-through text-gray-500" : ""}`}>
             {task.text}
-          </div>
-          <button onClick={() => onDelete(task.id)} className="text-red-500 hover:text-red-700">🗑️</button>
+          </span>
+          <button onClick={() => onDelete(task.id)} title="Delete">
+            <FiTrash2 className="w-4 h-4 text-rose-500 hover:text-rose-700" />
+          </button>
         </li>
       ))}
     </ul>
